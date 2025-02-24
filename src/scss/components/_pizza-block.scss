@@ -1,16 +1,17 @@
 @import '../variables.scss';
 
 .pizza-block {
-  width: 280px;
   text-align: center;
-  margin-bottom: 65px;
+  width: calc(25% - 20px); // Уменьшаем ширину каждого блока пиццы
+  margin-bottom: 20px; // Добавляем отступ снизу
 
   &:not(:nth-of-type(4n)) {
     margin-right: 35px;
   }
 
-  &__image {
-    width: 260px;
+  &__img {
+    width: 100%; // Делаем изображение адаптивным
+    height: auto; // Сохраняем пропорции изображения
   }
 
   &__title {
@@ -57,6 +58,8 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
+    flex-wrap: wrap;
+    padding: 0 10px; // Добавляем отступы по бокам
   }
 
   &__price {
