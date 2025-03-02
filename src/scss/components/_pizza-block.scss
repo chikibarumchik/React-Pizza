@@ -2,11 +2,12 @@
 
 .pizza-block {
   text-align: center;
-  width: calc(25% - 20px); // Уменьшаем ширину каждого блока пиццы
+  width: 100%; // Устанавливаем ширину на 100% для адаптивности
+  max-width: 280px; // Устанавливаем максимальную ширину
   margin-bottom: 20px; // Добавляем отступ снизу
 
   &:not(:nth-of-type(4n)) {
-    margin-right: 35px;
+    margin-right: 20px; // Уменьшаем отступ между блоками
   }
 
   &__img {
@@ -26,14 +27,14 @@
     background-color: #f3f3f3;
     border-radius: 10px;
     flex-direction: column;
-    padding: 6px;
+    padding: 10px; // Увеличиваем отступы внутри селектора
 
     ul {
       display: flex;
       flex: 1;
 
       &:first-of-type {
-        margin-bottom: 6px;
+        margin-bottom: 10px; // Увеличиваем отступ между списками
       }
 
       li {
@@ -59,7 +60,7 @@
     justify-content: space-between;
     margin-top: 20px;
     flex-wrap: wrap;
-    padding: 0 10px; // Добавляем отступы по бокам
+    padding: 0 45px; // Добавляем отступы по бокам
   }
 
   &__price {
@@ -67,5 +68,6 @@
     font-size: 22px;
     line-height: 27px;
     letter-spacing: 0.015em;
+    padding: 0 30px; // Уменьшаем отступы по бокам
   }
 }
