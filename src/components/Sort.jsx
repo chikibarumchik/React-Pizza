@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 
-function Sort() {
+function Sort(props) {
   const [isVisible, setIsVisible] = useState(false);
-  const sortList = ['популярности', 'цене', 'алфавиту'];
-  const [sortActive, setSortActive] = useState(sortList[0]);
+  const sortList = [
+    { name: 'популярности', sort: 'rating' },
+    { name: 'цене', sort: 'price' },
+    { name: 'алфавиту', sort: 'title' },
+  ];
 
   const selectSort = sortActive => {
     setIsVisible(false);
-    setSortActive(sortActive);
+    props.onChageSort(sortActive);
   };
 
   return (
@@ -26,14 +29,14 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsVisible(!isVisible)}>{sortActive}</span>
+        <span onClick={() => setIsVisible(!isVisible)}>{props.value.name}</span>
       </div>
       {isVisible && (
         <div className='sort__popup'>
           <ul>
             {sortList.map((item, index) => (
               <li key={index} onClick={() => selectSort(item)}>
-                {item}
+                {item.name}
               </li>
             ))}
           </ul>

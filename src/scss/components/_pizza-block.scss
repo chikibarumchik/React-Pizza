@@ -60,14 +60,15 @@
     justify-content: space-between;
     margin-top: 20px;
     flex-wrap: wrap;
-    padding: 0 45px; // Добавляем отступы по бокам
+    padding: 0 65px; // Добавляем отступы по бокам
   }
 
   &__price {
     font-weight: bold;
+    align-items: center;
     font-size: 22px;
     line-height: 27px;
     letter-spacing: 0.015em;
-    padding: 0 30px; // Уменьшаем отступы по бокам
+    padding: 0 20px; // Уменьшаем отступы по бокам
   }
 }
