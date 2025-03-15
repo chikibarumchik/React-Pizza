@@ -7,34 +7,41 @@ import Pagination from '../components/Pagination/Pagination';
 import { searchContex } from '../App';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategoryId } from '../redux/slices/filterSlice';
+import axios from 'axios';
+import { setPageCount } from '../redux/slices/pageSlice';
 
 export const Home = () => {
   const dispatch = useDispatch();
   const categoryId = useSelector(state => state.filter.categoryId);
   const sortType = useSelector(state => state.sort.sortType);
+  const page = useSelector(state => state.page.pageCount);
 
   const { searchValue } = React.useContext(searchContex);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [page, setPageId] = useState(1);
 
   const onClickCategory = categoryId => {
     dispatch(setCategoryId(categoryId));
+  };
+
+  const onClickPage = page => {
+    dispatch(setPageCount(page));
   };
 
   const search = searchValue ? `&search=${searchValue}` : '';
 
   React.useEffect(() => {
     setIsLoading(true);
-    fetch(
-      `https://67c1bcee61d8935867e418dc.mockapi.io/items?page=${page}&limit=3&${categoryId > 0 ? `category=${categoryId}` : ''}` +
-        '&sortBy=' +
-        sortType.type +
-        search,
-    )
-      .then(res => res.json())
-      .then(json => {
-        setItems(json);
+    console.log(page);
+    axios
+      .get(
+        `https://67c1bcee61d8935867e418dc.mockapi.io/items?page=${page}&limit=3&${categoryId > 0 ? `category=${categoryId}` : ''}` +
+          '&sortBy=' +
+          sortType.type +
+          search,
+      )
+      .then(response => {
+        setItems(response.data);
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
@@ -57,7 +64,7 @@ export const Home = () => {
       <div className='content__items'>
         {isLoading ? skeletons : Array.isArray(items) && pizzas}
       </div>
-      <Pagination onChangePage={page => setPageId(page)} />
+      <Pagination onChangePage={onClickPage} />
     </div>
   );
 };
