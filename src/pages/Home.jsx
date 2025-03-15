@@ -5,17 +5,23 @@ import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import React, { useState } from 'react';
 import Pagination from '../components/Pagination/Pagination';
 import { searchContex } from '../App';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCategoryId } from '../redux/slices/filterSlice';
 
 export const Home = () => {
+  const dispatch = useDispatch();
+  const categoryId = useSelector(state => state.filter.categoryId);
+  const sortType = useSelector(state => state.sort.sortType);
+
   const { searchValue } = React.useContext(searchContex);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [categoryId, setCategoryId] = useState(0);
   const [page, setPageId] = useState(1);
-  const [sortType, setSortType] = useState({
-    name: 'популярности',
-    sort: 'rating',
-  });
+
+  const onClickCategory = categoryId => {
+    dispatch(setCategoryId(categoryId));
+  };
+
   const search = searchValue ? `&search=${searchValue}` : '';
 
   React.useEffect(() => {
@@ -23,7 +29,7 @@ export const Home = () => {
     fetch(
       `https://67c1bcee61d8935867e418dc.mockapi.io/items?page=${page}&limit=3&${categoryId > 0 ? `category=${categoryId}` : ''}` +
         '&sortBy=' +
-        sortType.sort +
+        sortType.type +
         search,
     )
       .then(res => res.json())
@@ -44,11 +50,8 @@ export const Home = () => {
   return (
     <div className='container'>
       <div className='content__top'>
-        <Categories
-          value={categoryId}
-          onClickCategory={id => setCategoryId(id)}
-        />
-        <Sort value={sortType} onChageSort={id => setSortType(id)} />
+        <Categories value={categoryId} onClickCategory={onClickCategory} />
+        <Sort />
       </div>
       <h2 className='content__title'>Все пиццы</h2>
       <div className='content__items'>

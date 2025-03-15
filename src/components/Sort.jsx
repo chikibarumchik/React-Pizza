@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import { selectSort, setVisible } from '../redux/slices/sortSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
-function Sort(props) {
-  const [isVisible, setIsVisible] = useState(false);
+function Sort() {
+  const dispatch = useDispatch();
+  const { isVisible, sortType } = useSelector(state => state.sort);
   const sortList = [
-    { name: 'популярности', sort: 'rating' },
-    { name: 'цене', sort: 'price' },
-    { name: 'алфавиту', sort: 'title' },
+    { name: 'популярности', type: 'rating' },
+    { name: 'цене', type: 'price' },
+    { name: 'алфавиту', type: 'title' },
   ];
 
-  const selectSort = sortActive => {
-    setIsVisible(false);
-    props.onChageSort(sortActive);
+  const onChangeSort = sortType => {
+    console.log(sortType + 'onChageSort');
+    dispatch(selectSort(sortType));
+  };
+
+  const onChangeVisible = () => {
+    console.log(isVisible);
+    dispatch(setVisible(!isVisible));
   };
 
   return (
@@ -29,13 +36,13 @@ function Sort(props) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsVisible(!isVisible)}>{props.value.name}</span>
+        <span onClick={onChangeVisible}>{sortType.name}</span>
       </div>
       {isVisible && (
         <div className='sort__popup'>
           <ul>
             {sortList.map((item, index) => (
-              <li key={index} onClick={() => selectSort(item)}>
+              <li key={index} onClick={() => onChangeSort(item)}>
                 {item.name}
               </li>
             ))}
