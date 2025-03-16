@@ -1,27 +1,41 @@
 import { selectSort, setVisible } from '../redux/slices/sortSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import React, { useRef } from 'react';
+
+const sortList = [
+  { name: 'популярности', type: 'rating' },
+  { name: 'цене', type: 'price' },
+  { name: 'алфавиту', type: 'title' },
+];
 
 function Sort() {
   const dispatch = useDispatch();
   const { isVisible, sortType } = useSelector(state => state.sort);
-  const sortList = [
-    { name: 'популярности', type: 'rating' },
-    { name: 'цене', type: 'price' },
-    { name: 'алфавиту', type: 'title' },
-  ];
+  const sortRef = useRef();
+
+  React.useEffect(() => {
+    const handleClickOutside = event => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        dispatch(setVisible(false));
+      }
+    };
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   const onChangeSort = sortType => {
-    console.log(sortType + 'onChageSort');
     dispatch(selectSort(sortType));
   };
 
   const onChangeVisible = () => {
-    console.log(isVisible);
     dispatch(setVisible(!isVisible));
   };
 
   return (
-    <div className='sort'>
+    <div ref={sortRef} className='sort'>
       <div className='sort__label'>
         <svg
           width='10'
