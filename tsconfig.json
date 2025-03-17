@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "target": "es6",
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable"
+    ],
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "allowJs": true,
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "downlevelIteration": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "api/*": [
+        "src/api/*"
+      ],
+      "components/*": [
+        "src/components/*"
+      ],
+      "pages/*": [
+        "src/pages/*"
+      ],
+      "styles/*": [
+        "src/styles/*"
+      ],
+      "assets/*": [
+        "src/assets/*"
+      ],
+      "types/*": [
+        "src/types/*"
+      ],
+      "src/*": [
+        "src/*"
+      ]
+    }
+  },
+  "include": [
+    "./src",
+  ]
+}
