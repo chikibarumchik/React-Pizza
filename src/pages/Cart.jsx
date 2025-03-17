@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import { CartItem } from '../components/Cart/CartItem';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearItems } from '../redux/slices/cartSlice';
+import { clearItems, selectCart } from '../redux/slices/cartSlice';
 
 export const Cart = () => {
   const dispatch = useDispatch();
-  const cart = useSelector(state => state.cart);
+  const cart = useSelector(selectCart);
   const pizzasCart = cart.items
     .filter(item => item.count > 0)
     .map(item => <CartItem key={item.key} {...item} />);
