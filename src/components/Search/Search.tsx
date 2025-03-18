@@ -1,9 +1,9 @@
 import styles from './Search.module.scss';
 import React from 'react';
 import debounce from 'lodash.debounce';
-import { searchContex } from '../../App';
+import { searchContex } from 'src/App';
 
-export const Search = () => {
+export const Search: React.FC = () => {
   const { setSearchValue } = React.useContext(searchContex);
   const [value, setValue] = React.useState('');
 

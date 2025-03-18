@@ -2,10 +2,22 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../redux/slices/cartSlice';
 
-function PizzaBlock(props) {
+type PizzaBlockProps = {
+  id: number;
+  imageUrl: string;
+  title: string;
+  price: number;
+  type: string;
+  types: number[];
+  sizes: number[];
+  size: number;
+};
+
+const PizzaBlock: React.FC<PizzaBlockProps> = props => {
   const typesName = ['Тонкое', 'Традиционное'];
   const dispatch = useDispatch();
   const cartItem = useSelector(state =>
+    // @ts-ignore
     state.cart.items.find(item => item.id === props.id),
   );
   const addedCount = cartItem ? cartItem.count : 0;
@@ -79,6 +91,6 @@ function PizzaBlock(props) {
       </div>
     </div>
   );
-}
+};
 
 export default PizzaBlock;

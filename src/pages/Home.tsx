@@ -15,10 +15,15 @@ import { fetchPizzas } from '../redux/slices/pizzasSlice';
 export const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // @ts-ignore
   const categoryId = useSelector(state => state.filter.categoryId);
+  // @ts-ignore
   const sortType = useSelector(state => state.sort.sortType);
+  // @ts-ignore
   const page = useSelector(state => state.page.pageCount);
+  // @ts-ignore
   const pizzaItems = useSelector(state => state.pizzas.items);
+  // @ts-ignore
   const isLoading = useSelector(state => state.pizzas.isLoading);
 
   const { searchValue } = React.useContext(searchContex);
@@ -37,6 +42,7 @@ export const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         sortBy,
         category,

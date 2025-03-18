@@ -3,11 +3,13 @@ import logoSvg from '../assets/img/pizza-logo.svg';
 import { Link } from 'react-router-dom';
 import Search from './Search/Search';
 import { useSelector } from 'react-redux';
-import { selectSort } from '../redux/slices/sortSlice';
 import { selectCart } from '../redux/slices/cartSlice';
 
 function Header() {
   const { items, totalPrice } = useSelector(selectCart);
+  const totalCount = items.reduce((acc: number, curVal: any) => {
+    return acc + curVal.count;
+  }, 0);
 
   return (
     <div className='header'>
@@ -55,11 +57,7 @@ function Header() {
                 strokeLinejoin='round'
               />
             </svg>
-            <span>
-              {items.reduce((acc, curVal) => {
-                return acc + curVal.count;
-              }, 0)}
-            </span>
+            <span>{totalCount}</span>
           </Link>
         </div>
       </div>

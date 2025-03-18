@@ -2,7 +2,12 @@ import { selectSort, setVisible } from '../redux/slices/sortSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useRef } from 'react';
 
-const sortList = [
+type SortItem = {
+  name: string;
+  type: string;
+};
+
+const sortList: SortItem[] = [
   { name: 'популярности', type: 'rating' },
   { name: 'цене', type: 'price' },
   { name: 'алфавиту', type: 'title' },
@@ -10,8 +15,9 @@ const sortList = [
 
 function Sort() {
   const dispatch = useDispatch();
+  // @ts-ignore
   const { isVisible, sortType } = useSelector(state => state.sort);
-  const sortRef = useRef();
+  const sortRef = useRef(null);
 
   React.useEffect(() => {
     const handleClickOutside = event => {
@@ -26,7 +32,7 @@ function Sort() {
     };
   }, []);
 
-  const onChangeSort = sortType => {
+  const onChangeSort = (sortType: SortItem) => {
     dispatch(selectSort(sortType));
   };
 
