@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from 'src/redux/store';
 
 const initialState = {
   pageCount: 1,
@@ -13,6 +14,8 @@ export const pageSlice = createSlice({
     },
   },
 });
+
+export const pageState = (state: RootState) => state.page;
 
 export const { setPageCount } = pageSlice.actions;
 

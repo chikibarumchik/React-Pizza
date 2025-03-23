@@ -1,29 +1,17 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addItem, removeItem, removeItemAll } from 'src/redux/slices/cartSlice';
+import {
+  addItem,
+  removeItem,
+  removeItemAll,
+  CartItemType,
+} from 'src/redux/slices/cartSlice';
 
-type CartItemProps = {
-  id: number;
-  title: string;
-  type: string;
-  price: number;
-  size: number;
-  count: number;
-  imageUrl: string;
-};
-
-export const CartItem: React.FC<CartItemProps> = (props: {
-  id;
-  title;
-  type;
-  price;
-  size;
-  count;
-  imageUrl;
-}) => {
+export const CartItem: React.FC<CartItemType> = (props: CartItemType) => {
   const dispatch = useDispatch();
 
   const onClickAdd = () => {
+    console.log(props);
     dispatch(addItem(props));
   };
 
@@ -40,7 +28,12 @@ export const CartItem: React.FC<CartItemProps> = (props: {
         <img className='pizza-block__image' src={props.imageUrl} alt='Pizza' />
       </div>
       <div className='cart__item-info'>
-        <h3>{props.title}</h3>
+        <h3>
+          {props.title} {props.type}
+        </h3>
+        <h4>
+          {props.type} {props.size}
+        </h4>
       </div>
       <div className='cart__item-count'>
         <div

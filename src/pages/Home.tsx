@@ -6,29 +6,25 @@ import React from 'react';
 import Pagination from '../components/Pagination/Pagination';
 import qs from 'qs';
 import { searchContex } from '../App';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCategoryId } from '../redux/slices/filterSlice';
-import { setPageCount } from '../redux/slices/pageSlice';
+import { useSelector } from 'react-redux';
+import { filterState, setCategoryId } from '../redux/slices/filterSlice';
+import { pageState, setPageCount } from '../redux/slices/pageSlice';
 import { useNavigate } from 'react-router-dom';
-import { fetchPizzas } from '../redux/slices/pizzasSlice';
+import { fetchPizzas, pizzaState } from '../redux/slices/pizzasSlice';
+import { sortState } from 'src/redux/slices/sortSlice';
+import { useAppDispatch } from 'src/redux/store';
 
 export const Home = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  // @ts-ignore
-  const categoryId = useSelector(state => state.filter.categoryId);
-  // @ts-ignore
-  const sortType = useSelector(state => state.sort.sortType);
-  // @ts-ignore
-  const page = useSelector(state => state.page.pageCount);
-  // @ts-ignore
-  const pizzaItems = useSelector(state => state.pizzas.items);
-  // @ts-ignore
-  const isLoading = useSelector(state => state.pizzas.isLoading);
+  const dispatch = useAppDispatch();
+  const categoryId = useSelector(filterState).categoryId;
+  const sortType = useSelector(sortState).sortType;
+  const page = useSelector(pageState).pageCount;
+  const { items, isLoading } = useSelector(pizzaState);
 
   const { searchValue } = React.useContext(searchContex);
 
-  const onClickCategory = categoryId => {
+  const onClickCategory = (categoryId: number) => {
     dispatch(setCategoryId(categoryId));
   };
 
@@ -42,7 +38,6 @@ export const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         sortBy,
         category,
@@ -66,8 +61,10 @@ export const Home = () => {
     navigate(`?${queryString}`);
   }, [categoryId, sortType, page]);
 
-  const pizzas = Array.isArray(pizzaItems)
-    ? pizzaItems.map(obj => <PizzaBlock key={obj.id} {...obj} />)
+  console.log(items);
+
+  const pizzas = Array.isArray(items)
+    ? items.map(obj => <PizzaBlock key={obj.id} {...obj} />)
     : [...new Array(0)];
   const skeletons = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
@@ -81,7 +78,7 @@ export const Home = () => {
       </div>
       <h2 className='content__title'>Все пиццы</h2>
       <div className='content__items'>
-        {isLoading ? skeletons : Array.isArray(pizzaItems) && pizzas}
+        {isLoading ? skeletons : Array.isArray(items) && pizzas}
       </div>
       <Pagination onChangePage={onClickPage} />
     </div>

@@ -1,19 +1,19 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearItems, selectCart } from '../redux/slices/cartSlice';
+import { cartState, clearItems } from '../redux/slices/cartSlice';
 import { CartItem } from '../components/Cart/CartItem';
 import React from 'react';
 
 export const Cart: React.FC = () => {
   const dispatch = useDispatch();
-  const cart = useSelector(selectCart);
+  const cart = useSelector(cartState);
   const pizzasCart = cart.items
     .filter(item => item.count > 0)
-    .map(item => <CartItem key={item.key} {...item} />);
+    .map(item => <CartItem key={item.id} {...item} />);
 
   const removeAllCart = () => {
     if (window.confirm('Очистить корзину?')) {
-      dispatch(clearItems(cart));
+      dispatch(clearItems());
     }
   };
 

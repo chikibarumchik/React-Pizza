@@ -1,13 +1,17 @@
-import { selectSort, setVisible } from '../redux/slices/sortSlice';
+import {
+  selectSort,
+  setVisible,
+  sortState,
+  SortType,
+} from '../redux/slices/sortSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useRef } from 'react';
 
-type SortItem = {
-  name: string;
-  type: string;
+type PopupClick = MouseEvent & {
+  path: Node[];
 };
 
-const sortList: SortItem[] = [
+const sortList: SortType[] = [
   { name: 'популярности', type: 'rating' },
   { name: 'цене', type: 'price' },
   { name: 'алфавиту', type: 'title' },
@@ -15,13 +19,13 @@ const sortList: SortItem[] = [
 
 function Sort() {
   const dispatch = useDispatch();
-  // @ts-ignore
-  const { isVisible, sortType } = useSelector(state => state.sort);
+  const { isVisible, sortType } = useSelector(sortState);
   const sortRef = useRef(null);
 
   React.useEffect(() => {
-    const handleClickOutside = event => {
-      if (!event.composedPath().includes(sortRef.current)) {
+    const handleClickOutside = (event: PopupClick) => {
+      const _event = event as PopupClick;
+      if (sortRef.current && !_event.composedPath().includes(sortRef.current)) {
         dispatch(setVisible(false));
       }
     };
@@ -32,7 +36,7 @@ function Sort() {
     };
   }, []);
 
-  const onChangeSort = (sortType: SortItem) => {
+  const onChangeSort = (sortType: SortType) => {
     dispatch(selectSort(sortType));
   };
 

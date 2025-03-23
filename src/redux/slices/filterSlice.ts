@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from 'src/redux/store';
 
 const initialState = {
   categoryId: 0,
@@ -13,6 +14,8 @@ export const filterSlice = createSlice({
     },
   },
 });
+
+export const filterState = (state: RootState) => state.filter;
 
 export const { setCategoryId } = filterSlice.actions;
 

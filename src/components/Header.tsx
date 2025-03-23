@@ -3,10 +3,10 @@ import logoSvg from '../assets/img/pizza-logo.svg';
 import { Link } from 'react-router-dom';
 import Search from './Search/Search';
 import { useSelector } from 'react-redux';
-import { selectCart } from '../redux/slices/cartSlice';
+import { cartState } from '../redux/slices/cartSlice';
 
 function Header() {
-  const { items, totalPrice } = useSelector(selectCart);
+  const { items, totalPrice } = useSelector(cartState);
   const totalCount = items.reduce((acc: number, curVal: any) => {
     return acc + curVal.count;
   }, 0);
